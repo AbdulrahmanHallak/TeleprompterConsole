@@ -3,12 +3,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
         RunTeleprompter().Wait();
     }
-
-
+    /// <summary>
+    /// Reads through the specified file one line at a time and splits each line into words.
+    /// </summary>
+    /// <param name="filePath">The full path for the file to read from.</param>
+    /// <returns>Each call returns the words of a single line in an <see cref="IEnumerable{T}"/> of type <see cref="String"/>.</returns>
     public static IEnumerable<string> ReadFrom(string filePath)
     {
         string? line;
@@ -35,7 +36,8 @@ class Program
 
     public static async Task ShowTeleprompter(TeleprompterConfig config)
     {
-        var words = ReadFrom("C:\\Users\\Abdulrahman\\Desktop\\New Text Document.txt");
+        var path = "<Quotes.txt path>";
+        var words = ReadFrom(path);
         foreach (var word in words)
         {
             Console.Write(word);
@@ -46,7 +48,10 @@ class Program
         }
         config.SetDone();
     }
-
+    /// <summary>
+    /// Gets input through the console to speed up, slow down or stop the <see cref="ShowTeleprompter(TeleprompterConfig)"/>
+    /// </summary>
+    /// <param name="config"> A configuration object to customize <see cref="ShowTeleprompter(TeleprompterConfig)"/> based on user input.</param>
     private static async Task GetInput(TeleprompterConfig config)
     {
         Action work = () =>

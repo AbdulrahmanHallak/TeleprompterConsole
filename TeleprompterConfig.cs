@@ -1,5 +1,8 @@
 ﻿namespace TeleprompterConsole;
 using static Math;
+/// <summary>
+/// Provides Configuration to customize the printing speed and stop it. 
+/// </summary>
 internal class TeleprompterConfig
 {
     public int DelayInMilliseconds { get; private set; } = 200;
@@ -13,6 +16,5 @@ internal class TeleprompterConfig
         newDelay = Max(newDelay, 20);
         DelayInMilliseconds = newDelay;
     }
-
 }
 

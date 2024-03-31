@@ -1,24 +1,15 @@
 ﻿namespace TeleprompterConsole;
 class Program
 {
-    static async Task Main(string[] args)
+    static void Main(string[] args)
     {
         var path = Path.Combine(Environment.CurrentDirectory, "Quotes.txt");
         var config = new TeleprompterConfig();
 
-        var partialApp = (TeleprompterConfig config) => (string line) => WriteToConsole(config, line);
-        var task = ReadLines(path).Map(FormatLine).ForEachAwaitAsync(partialApp(config));
+        // partially apply the config object.
+        Func<string, Task> WriteLines(TeleprompterConfig config) => (string line) => WriteToConsole(config, line);
 
-        // * this code is imperative.
-        // Func<TeleprompterConfig, Task> task = async (config) =>
-        // {
-        //     await foreach (var line in ReadLines(path))
-        //     {
-        //         var formatted = FormatLine(line);
-        //         foreach (var item in formatted)
-        //             await WriteToConsole(config, item);
-        //     }
-        // };
+        var task = ReadLines(path).Bind(FormatLine).ForEachAwaitAsync(WriteLines(config));
 
         Task.WhenAny(Task.Run(() => GetInput(config)), task).Wait();
     }

@@ -1,7 +1,7 @@
 namespace TeleprompterConsole;
 static class Ext
 {
-    public static async IAsyncEnumerable<R> Map<T, R>(this IAsyncEnumerable<T> source, Func<T, IEnumerable<R>> func)
+    public static async IAsyncEnumerable<R> Bind<T, R>(this IAsyncEnumerable<T> source, Func<T, IEnumerable<R>> func)
     {
         await foreach (var line in source)
         {
